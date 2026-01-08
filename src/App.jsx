@@ -4,8 +4,8 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
-const API_BASE = "https://ec-course-api.hexschool.io/v2";
-const API_PATH = "cks40660";
+const API_BASE = import.meta.env.VITE_API_BASE;
+const API_PATH = import.meta.env.VITE_API_PATH;
 
 function App() {
   // 解構 useState 回傳的結果：formData 是目前的資料狀態，setFormData 是更新formData的方法(function)，useState 內的值是預設資料狀態
