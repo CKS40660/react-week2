@@ -4,6 +4,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
+// env 變數不要加""及;
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
@@ -217,7 +218,8 @@ function App() {
         </div>
       )}
 
-      {tempProduct === null ? null : (
+      {
+        // 從modal外層判斷tempProduct===null，初始化無法取得值
         <div
           className="modal fade "
           id="productModal"
@@ -226,46 +228,53 @@ function App() {
         >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">{tempProduct.title}</h5>
-                <span className="btn btn-primary btn-sm ms-3">
-                  {tempProduct.category}
-                </span>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body text-start">
-                <p>{tempProduct.description} </p>
-                {tempProduct.imagesUrl.map((img, index) => {
-                  return <img src={img} alt={tempProduct.title} key={index} />;
-                })}
-                <p className="mt-2 mb-0">
-                  {tempProduct.is_enabled
-                    ? `庫存 1 ${tempProduct.unit}`
-                    : "已售完"}
-                </p>
-                <p>
-                  售價：
-                  <span className="fw-bold fs-3">{tempProduct.price}</span>
-                </p>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  關閉
-                </button>
-              </div>
+              {/* 改從內層判斷{tempProduct && ( ... )}，當前者為true會回傳後者，前者為false則不渲染 */}
+              {tempProduct && (
+                <>
+                  <div className="modal-header">
+                    <h5 className="modal-title">{tempProduct.title}</h5>
+                    <span className="btn btn-primary btn-sm ms-3">
+                      {tempProduct.category}
+                    </span>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body text-start">
+                    <p>{tempProduct.description} </p>
+                    {tempProduct.imagesUrl.map((img, index) => {
+                      return (
+                        <img src={img} alt={tempProduct.title} key={index} />
+                      );
+                    })}
+                    <p className="mt-2 mb-0">
+                      {tempProduct.is_enabled
+                        ? `庫存 1 ${tempProduct.unit}`
+                        : "已售完"}
+                    </p>
+                    <p>
+                      售價：
+                      <span className="fw-bold fs-3">{tempProduct.price}</span>
+                    </p>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      關閉
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
-      )}
+      }
     </>
   );
 }
